@@ -20,13 +20,13 @@ public class PrescriptionController {
     private PrescriptionService prescriptionService;
 
 
-
+    // Get all the prescription at once
     @GetMapping("/getallp")
     public ResponseEntity<List<Prescription>> getAllPrescriptions(){
        List<Prescription> prescriptions=prescriptionService.getAllPrescriptions();
        return new ResponseEntity<>(prescriptions, HttpStatus.OK);
     }
-
+    // Get prescription by using Date Range
     @GetMapping("/getpbd")
     public ResponseEntity<List<Prescription>> getPrescriptionsByDateRange(@RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
                                                           @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate){
@@ -36,7 +36,7 @@ public class PrescriptionController {
         List<Prescription> prescriptions=prescriptionService.getPrescriptionsByDateRange(startDate, endDate);
         return new ResponseEntity<>(prescriptions, HttpStatus.OK);
     }
-
+    // Get prescription by using ID
     @GetMapping("/{id}")
     public ResponseEntity<?> getPrescriptionById(@PathVariable Long id){
         Optional<Prescription> prescriptions=prescriptionService.getPrescriptionById(id);
@@ -47,13 +47,13 @@ public class PrescriptionController {
             return new ResponseEntity<>("{message: \"tutorial not found\"}", HttpStatus.NOT_FOUND);
         }
     }
-
+    // Create prescription
     @PostMapping("/createPres")
     public ResponseEntity<Prescription> createPrescription(@RequestBody Prescription prescription) {
         Prescription createdPrescription = prescriptionService.createPrescription(prescription);
         return new ResponseEntity<>(createdPrescription, HttpStatus.OK);
     }
-
+    // Update prescription by using ID
     @PutMapping("/{id}")
     public ResponseEntity<?> updatePrescription(@PathVariable Long id, @RequestBody Prescription prescription) {
 
@@ -63,7 +63,7 @@ public class PrescriptionController {
     }
 
 
-    // delete prescription
+    // Delete prescription by using ID
     @PostMapping("/delete/{id}")
     public ResponseEntity<String> deletePrescription(@PathVariable Long id) {
         prescriptionService.deletePrescription(id);
